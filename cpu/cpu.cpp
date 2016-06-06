@@ -10,13 +10,13 @@ using namespace std;
 void
 Cpu::power(bool on) {
   if (on) {
-    state = STATE_RUNNING;
+    runningState = STATE_RUNNING;
     cout << "CPU: ON" << endl;
     init();
     tick();
   }
   else { 
-    state = STATE_OFF;
+    runningState = STATE_OFF;
     cout << "CPU: OFF" << endl;
   }
 }
