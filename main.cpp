@@ -5,8 +5,8 @@
 using namespace std;
 
 int main() {
-    Cpu cpu;
-    cout << cpu.carry() << endl;
-    cout << NESEMU_VERSION_MAJOR << endl;
-    cout << "EMU Entry" << endl;
+    Cpu cpu(nullptr);
+    cout << "NESEMU version: " << NESEMU_VERSION_MAJOR \
+         << "." << NESEMU_VERSION_MINOR << endl;
+    cpu.power(true);
 }

@@ -150,6 +150,33 @@ cpu/cpu.cpp.s:
 	$(MAKE) -f CMakeFiles/nesemu.dir/build.make CMakeFiles/nesemu.dir/cpu/cpu.cpp.s
 .PHONY : cpu/cpu.cpp.s
 
+cpu/instruction.o: cpu/instruction.cpp.o
+
+.PHONY : cpu/instruction.o
+
+# target to build an object file
+cpu/instruction.cpp.o:
+	$(MAKE) -f CMakeFiles/nesemu.dir/build.make CMakeFiles/nesemu.dir/cpu/instruction.cpp.o
+.PHONY : cpu/instruction.cpp.o
+
+cpu/instruction.i: cpu/instruction.cpp.i
+
+.PHONY : cpu/instruction.i
+
+# target to preprocess a source file
+cpu/instruction.cpp.i:
+	$(MAKE) -f CMakeFiles/nesemu.dir/build.make CMakeFiles/nesemu.dir/cpu/instruction.cpp.i
+.PHONY : cpu/instruction.cpp.i
+
+cpu/instruction.s: cpu/instruction.cpp.s
+
+.PHONY : cpu/instruction.s
+
+# target to generate assembly for a file
+cpu/instruction.cpp.s:
+	$(MAKE) -f CMakeFiles/nesemu.dir/build.make CMakeFiles/nesemu.dir/cpu/instruction.cpp.s
+.PHONY : cpu/instruction.cpp.s
+
 main.o: main.cpp.o
 
 .PHONY : main.o
@@ -189,6 +216,9 @@ help:
 	@echo "... cpu/cpu.o"
 	@echo "... cpu/cpu.i"
 	@echo "... cpu/cpu.s"
+	@echo "... cpu/instruction.o"
+	@echo "... cpu/instruction.i"
+	@echo "... cpu/instruction.s"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"
