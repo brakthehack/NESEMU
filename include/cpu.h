@@ -58,14 +58,14 @@ private:
   void tick();
 
   // Flag queries.
-	bool carry() { return reg.p & 0x1 != 0; }
-	bool zero() { return reg.p & 0x2 != 0; }
-	bool irqEnabled() { return reg.p & 0x4 != 0; }
-	bool decimalEnabled() { return reg.p & 0x8 != 0; }
-	bool breakInterrupt() { return reg.p & 0x10 != 0; }
+  bool carry() { return reg.p & 0x1 != 0; }
+  bool zero() { return reg.p & 0x2 != 0; }
+  bool irqEnabled() { return reg.p & 0x4 != 0; }
+  bool decimalEnabled() { return reg.p & 0x8 != 0; }
+  bool breakInterrupt() { return reg.p & 0x10 != 0; }
   // Note: 0x20 is left unused.
-	bool overflow() { return reg.p & 0x40 != 0; }
-	bool negative() { return reg.p & 0x80 != 0; }
+  bool overflow() { return reg.p & 0x40 != 0; }
+  bool negative() { return reg.p & 0x80 != 0; }
 };
 
 #endif
