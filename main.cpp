@@ -1,6 +1,6 @@
 #include <iostream>
-#include "Config.h"
-#include "cpu/cpu.h"
+#include "config.h"
+#include "cpu.h"
 
 using namespace std;
 

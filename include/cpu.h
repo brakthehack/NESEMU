@@ -19,6 +19,10 @@ public:
 	bool overflow() { return p & 0x40 != 0; }
 	bool negative() { return p & 0x80 != 0; }
 
+  void power(bool on);
+  
+  Cpu() : sp(0xFF) {}
+
 private:
 	// Registers.
 

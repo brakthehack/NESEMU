@@ -6,21 +6,20 @@ project(nesemu)
 
 set (CMAKE_CXX_STANDARD 11)
 
-include_directories("${PROJECT_SOURCE_DIR}")
+include_directories("${PROJECT_SOURCE_DIR}" "${PROJECT_BINARY_DIR}" "${PROJECT_SOURCE_DIR}/include")
 
 set (NESEMU_VERSION_MAJOR 1)
 set (NESEMU_VERSION MINOR 0)
 
 configure_file (
   "${PROJECT_SOURCE_DIR}/Config.h.in"
-  "${PROJECT_BINARY_DIR}/Config.h"
+  "${PROJECT_SOURCE_DIR}/include/config.h"
   )
 
-include_directories("${PROJECT_BINARY_DIR}")
 
 file(GLOB CPU_SRC
-    "${PROJECT_SOURCE_DIR}/cpu/*.h"
     "${PROJECT_SOURCE_DIR}/cpu/*.cpp"
+    "${PROJECT_SOURCE_DIR}/mmu/*.cpp"
 )
 
 add_executable(nesemu main.cpp ${CPU_SRC} )
