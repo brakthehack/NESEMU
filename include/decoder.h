@@ -8,7 +8,6 @@ public:
   virtual Instruction& decode(uint8_t data);
 
   Decoder() {}
-  ~Decoder() {}
 };
 
 #endif

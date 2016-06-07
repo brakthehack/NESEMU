@@ -150,6 +150,33 @@ cpu/cpu.cpp.s:
 	$(MAKE) -f CMakeFiles/nesemu.dir/build.make CMakeFiles/nesemu.dir/cpu/cpu.cpp.s
 .PHONY : cpu/cpu.cpp.s
 
+cpu/cpu6502.o: cpu/cpu6502.cpp.o
+
+.PHONY : cpu/cpu6502.o
+
+# target to build an object file
+cpu/cpu6502.cpp.o:
+	$(MAKE) -f CMakeFiles/nesemu.dir/build.make CMakeFiles/nesemu.dir/cpu/cpu6502.cpp.o
+.PHONY : cpu/cpu6502.cpp.o
+
+cpu/cpu6502.i: cpu/cpu6502.cpp.i
+
+.PHONY : cpu/cpu6502.i
+
+# target to preprocess a source file
+cpu/cpu6502.cpp.i:
+	$(MAKE) -f CMakeFiles/nesemu.dir/build.make CMakeFiles/nesemu.dir/cpu/cpu6502.cpp.i
+.PHONY : cpu/cpu6502.cpp.i
+
+cpu/cpu6502.s: cpu/cpu6502.cpp.s
+
+.PHONY : cpu/cpu6502.s
+
+# target to generate assembly for a file
+cpu/cpu6502.cpp.s:
+	$(MAKE) -f CMakeFiles/nesemu.dir/build.make CMakeFiles/nesemu.dir/cpu/cpu6502.cpp.s
+.PHONY : cpu/cpu6502.cpp.s
+
 cpu/instruction.o: cpu/instruction.cpp.o
 
 .PHONY : cpu/instruction.o
@@ -216,6 +243,9 @@ help:
 	@echo "... cpu/cpu.o"
 	@echo "... cpu/cpu.i"
 	@echo "... cpu/cpu.s"
+	@echo "... cpu/cpu6502.o"
+	@echo "... cpu/cpu6502.i"
+	@echo "... cpu/cpu6502.s"
 	@echo "... cpu/instruction.o"
 	@echo "... cpu/instruction.i"
 	@echo "... cpu/instruction.s"
