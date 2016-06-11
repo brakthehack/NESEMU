@@ -9,7 +9,7 @@ set (CMAKE_CXX_STANDARD 11)
 include_directories("${PROJECT_SOURCE_DIR}" "${PROJECT_BINARY_DIR}" "${PROJECT_SOURCE_DIR}/include")
 
 set (NESEMU_VERSION_MAJOR 1)
-set (NESEMU_VERSION MINOR 0.0)
+set (NESEMU_VERSION_MINOR 0)
 
 configure_file (
   "${PROJECT_SOURCE_DIR}/Config.h.in"
