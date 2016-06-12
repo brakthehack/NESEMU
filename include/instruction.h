@@ -13,14 +13,12 @@ class Instruction {
 
 public:
   virtual void execute() = 0;
-  virtual void description() = 0;
 };
 
 class Instruction6502 : public Instruction {
 
 public:
   virtual void execute() = 0;
-  virtual void description() = 0;
 
   ~Instruction6502() {
     free(addr);
@@ -37,13 +35,65 @@ protected:
   AddressMode* addr;
 };
 
-class ADC : public Instruction6502 {
-public:
-  void execute();
-  void description();
+#define NEW_INSTRUCTION(INST) class INST : public Instruction6502 {\
+public:               \
+  void execute();     \
+  void description(); \
+  INST(Cpu6502& c, registers& r, AddressMode *a) : \
+    Instruction6502(c, r, a) {} \
+}
 
-  ADC(Cpu6502& c, registers& r, AddressMode* a) :
-    Instruction6502(c, r, a) {} 
-};
+NEW_INSTRUCTION(ADC);
+NEW_INSTRUCTION(AND);
+NEW_INSTRUCTION(ASL);
+NEW_INSTRUCTION(BCC);
+NEW_INSTRUCTION(BCS);
+NEW_INSTRUCTION(BEQ);
+NEW_INSTRUCTION(BIT);
+NEW_INSTRUCTION(BMI);
+NEW_INSTRUCTION(BME);
+NEW_INSTRUCTION(BPL);
+NEW_INSTRUCTION(BRK);
+NEW_INSTRUCTION(BVC);
+NEW_INSTRUCTION(BVS);
+NEW_INSTRUCTION(CLC);
+NEW_INSTRUCTION(CLD);
+NEW_INSTRUCTION(CLI);
+NEW_INSTRUCTION(CLV);
+NEW_INSTRUCTION(CMP);
+NEW_INSTRUCTION(CPX);
+NEW_INSTRUCTION(CPY);
+NEW_INSTRUCTION(DEC);
+NEW_INSTRUCTION(DEX);
+NEW_INSTRUCTION(DEY);
+NEW_INSTRUCTION(EOR);
+NEW_INSTRUCTION(INC);
+NEW_INSTRUCTION(INX);
+NEW_INSTRUCTION(INY);
+NEW_INSTRUCTION(JMP);
+NEW_INSTRUCTION(JSR);
+NEW_INSTRUCTION(LSR);
+NEW_INSTRUCTION(NOP);
+NEW_INSTRUCTION(ORA);
+NEW_INSTRUCTION(PHA);
+NEW_INSTRUCTION(PHP);
+NEW_INSTRUCTION(PLA);
+NEW_INSTRUCTION(PLP);
+NEW_INSTRUCTION(ROL);
+NEW_INSTRUCTION(ROR);
+NEW_INSTRUCTION(RTI);
+NEW_INSTRUCTION(RTS);
+NEW_INSTRUCTION(SBC);
+NEW_INSTRUCTION(SEC);
+NEW_INSTRUCTION(SEI);
+NEW_INSTRUCTION(STA);
+NEW_INSTRUCTION(STX);
+NEW_INSTRUCTION(STY);
+NEW_INSTRUCTION(TAX);
+NEW_INSTRUCTION(TAY);
+NEW_INSTRUCTION(TSX);
+NEW_INSTRUCTION(TXA);
+NEW_INSTRUCTION(TXS);
+NEW_INSTRUCTION(TYA);
 
 #endif

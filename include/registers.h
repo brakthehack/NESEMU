@@ -1,6 +1,8 @@
 #ifndef REGISTERS_
 #define REGISTERS_
 
+#include <cinttypes>
+
 typedef struct registers {
   uint8_t acc;  // Holds one of the operands and generally the result.
   uint8_t x, y; // Used mainly for forming effective addresses and loop counters.

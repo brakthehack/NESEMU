@@ -3,6 +3,8 @@
 
 #include "registers.h"
 
+#include <iostream>
+
 class Cpu6502;
 
 /**

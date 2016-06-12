@@ -16,6 +16,4 @@ ADC::execute() {
 }
 
 void
-ADC::description() {
-  cout << "Add memory and carry to accumulator" << endl;
-}
+NOP::execute() {/* No operation */}

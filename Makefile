@@ -123,32 +123,32 @@ nesemu/fast:
 	$(MAKE) -f CMakeFiles/nesemu.dir/build.make CMakeFiles/nesemu.dir/build
 .PHONY : nesemu/fast
 
-cpu/adc.o: cpu/adc.cpp.o
+cpu/addressmode/immediate.o: cpu/addressmode/immediate.cpp.o
 
-.PHONY : cpu/adc.o
+.PHONY : cpu/addressmode/immediate.o
 
 # target to build an object file
-cpu/adc.cpp.o:
-	$(MAKE) -f CMakeFiles/nesemu.dir/build.make CMakeFiles/nesemu.dir/cpu/adc.cpp.o
-.PHONY : cpu/adc.cpp.o
+cpu/addressmode/immediate.cpp.o:
+	$(MAKE) -f CMakeFiles/nesemu.dir/build.make CMakeFiles/nesemu.dir/cpu/addressmode/immediate.cpp.o
+.PHONY : cpu/addressmode/immediate.cpp.o
 
-cpu/adc.i: cpu/adc.cpp.i
+cpu/addressmode/immediate.i: cpu/addressmode/immediate.cpp.i
 
-.PHONY : cpu/adc.i
+.PHONY : cpu/addressmode/immediate.i
 
 # target to preprocess a source file
-cpu/adc.cpp.i:
-	$(MAKE) -f CMakeFiles/nesemu.dir/build.make CMakeFiles/nesemu.dir/cpu/adc.cpp.i
-.PHONY : cpu/adc.cpp.i
+cpu/addressmode/immediate.cpp.i:
+	$(MAKE) -f CMakeFiles/nesemu.dir/build.make CMakeFiles/nesemu.dir/cpu/addressmode/immediate.cpp.i
+.PHONY : cpu/addressmode/immediate.cpp.i
 
-cpu/adc.s: cpu/adc.cpp.s
+cpu/addressmode/immediate.s: cpu/addressmode/immediate.cpp.s
 
-.PHONY : cpu/adc.s
+.PHONY : cpu/addressmode/immediate.s
 
 # target to generate assembly for a file
-cpu/adc.cpp.s:
-	$(MAKE) -f CMakeFiles/nesemu.dir/build.make CMakeFiles/nesemu.dir/cpu/adc.cpp.s
-.PHONY : cpu/adc.cpp.s
+cpu/addressmode/immediate.cpp.s:
+	$(MAKE) -f CMakeFiles/nesemu.dir/build.make CMakeFiles/nesemu.dir/cpu/addressmode/immediate.cpp.s
+.PHONY : cpu/addressmode/immediate.cpp.s
 
 cpu/cpu.o: cpu/cpu.cpp.o
 
@@ -204,6 +204,33 @@ cpu/cpu6502.cpp.s:
 	$(MAKE) -f CMakeFiles/nesemu.dir/build.make CMakeFiles/nesemu.dir/cpu/cpu6502.cpp.s
 .PHONY : cpu/cpu6502.cpp.s
 
+cpu/instructions6502.o: cpu/instructions6502.cpp.o
+
+.PHONY : cpu/instructions6502.o
+
+# target to build an object file
+cpu/instructions6502.cpp.o:
+	$(MAKE) -f CMakeFiles/nesemu.dir/build.make CMakeFiles/nesemu.dir/cpu/instructions6502.cpp.o
+.PHONY : cpu/instructions6502.cpp.o
+
+cpu/instructions6502.i: cpu/instructions6502.cpp.i
+
+.PHONY : cpu/instructions6502.i
+
+# target to preprocess a source file
+cpu/instructions6502.cpp.i:
+	$(MAKE) -f CMakeFiles/nesemu.dir/build.make CMakeFiles/nesemu.dir/cpu/instructions6502.cpp.i
+.PHONY : cpu/instructions6502.cpp.i
+
+cpu/instructions6502.s: cpu/instructions6502.cpp.s
+
+.PHONY : cpu/instructions6502.s
+
+# target to generate assembly for a file
+cpu/instructions6502.cpp.s:
+	$(MAKE) -f CMakeFiles/nesemu.dir/build.make CMakeFiles/nesemu.dir/cpu/instructions6502.cpp.s
+.PHONY : cpu/instructions6502.cpp.s
+
 main.o: main.cpp.o
 
 .PHONY : main.o
@@ -240,15 +267,18 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... nesemu"
-	@echo "... cpu/adc.o"
-	@echo "... cpu/adc.i"
-	@echo "... cpu/adc.s"
+	@echo "... cpu/addressmode/immediate.o"
+	@echo "... cpu/addressmode/immediate.i"
+	@echo "... cpu/addressmode/immediate.s"
 	@echo "... cpu/cpu.o"
 	@echo "... cpu/cpu.i"
 	@echo "... cpu/cpu.s"
 	@echo "... cpu/cpu6502.o"
 	@echo "... cpu/cpu6502.i"
 	@echo "... cpu/cpu6502.s"
+	@echo "... cpu/instructions6502.o"
+	@echo "... cpu/instructions6502.i"
+	@echo "... cpu/instructions6502.s"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"

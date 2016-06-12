@@ -23,9 +23,6 @@ Cpu6502::execute() {
   while (!q.empty()) {
     Instruction6502* inst = q.front();
     inst->execute();
-#ifdef EMU_DEBUG
-    inst->description();
-#endif
     q.pop();
     tick();
   }

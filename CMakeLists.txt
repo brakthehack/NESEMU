@@ -20,6 +20,7 @@ configure_file (
 file(GLOB CPU_SRC
     "${PROJECT_SOURCE_DIR}/cpu/*.cpp"
     "${PROJECT_SOURCE_DIR}/mmu/*.cpp"
+    "${PROJECT_SOURCE_DIR}/cpu/addressmode/*.cpp"
 )
 
 add_executable(nesemu main.cpp ${CPU_SRC} )
