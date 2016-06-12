@@ -2,20 +2,15 @@
 #define CPU6502_H_
 
 #include "cpu.h"
+#include "registers.h"
+#include "instruction.h"
 #include "decoder.h"
 #include "mmu.h"
 
+#include <queue>
+
 class Cpu6502 : Cpu {
 public:
-
-  // Registers.
-  typedef struct registers {
-    uint8_t acc;  // Holds one of the operands and generally the result.
-    uint8_t x, y; // Used mainly for forming effective addresses and loop counters.
-    uint8_t p;    // Conditional register containing flags, conditions modes, etc.
-    uint8_t sp;   // Stack pointer.
-    uint16_t pc;  // Program counter.
-  } registers;
 
   inline bool carry()    { reg.p & 0x01 != 0; }
   inline bool zero()     { reg.p & 0x02 != 0; }
@@ -41,18 +36,20 @@ public:
   virtual void reset();
 
   Cpu6502(Decoder *d, Mmu *m) :
-    Cpu(d, m) {
+    Cpu::Cpu(d, m) {
     reg.sp = 0xff;
     reg.p = 0x20;
   }
 
 private:
   registers reg;
+  std::queue<Instruction6502 *> q;
 
-  virtual void execute(Instruction& inst);
-  virtual void tick();
+  void execute();
+  void tick();
 
   void init();
+  void post();
 };
 
 #endif

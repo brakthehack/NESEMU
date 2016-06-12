@@ -5,7 +5,7 @@
 
 class Decoder {
 public:
-  virtual Instruction& decode(uint8_t data);
+  //virtual Instruction& decode(uint8_t data);
 
   Decoder() {}
 };

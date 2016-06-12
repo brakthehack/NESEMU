@@ -6,24 +6,16 @@
 
 using namespace std;
 
-class ADC : Instruction {
- 
-  void
-  execute() { 
-    cout << "Acc is " << regs.acc << endl;
-    regs.acc = 0xFF;
-    cout << "Acc is " << regs.acc << endl;
-  }
+void
+ADC::execute() {
+  addr->before(reg);
+  cout << "Acc is " << hex << unsigned(reg.acc) << endl;
+  reg.acc = 0x40;
+  cout << "Acc is " << hex << unsigned(reg.acc) << endl;
+  addr->after(reg);
+}
 
-  void
-  description() {
-    cout << "Add memory and carry to accumulator" << endl;
-  }
-
-  ADC(Cpu6502& c, Cpu6502::registers& r) :
-    cpu(c), regs(r) {}
-
-private:
-  Cpu6502 &cpu;
-  Cpu6502::registers& regs;
-};
+void
+ADC::description() {
+  cout << "Add memory and carry to accumulator" << endl;
+}

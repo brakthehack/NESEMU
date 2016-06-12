@@ -27,8 +27,7 @@ public:
   State state() { return runningState; }
 
   Cpu(Decoder *dec, Mmu *m) :
-    decoder(dec), mmu(m) {
-  }
+    decoder(dec), mmu(m) {}
 
   ~Cpu() {
     delete decoder;
@@ -40,8 +39,9 @@ protected:
   Mmu *mmu;
   Decoder *decoder; // Decodes instructions.
 
-  virtual void execute(Instruction& inst) = 0;
+  virtual void execute() = 0;
   virtual void tick() = 0;
+  virtual void post() = 0;
 };
 
 #endif

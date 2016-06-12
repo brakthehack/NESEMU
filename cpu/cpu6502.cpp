@@ -1,25 +1,49 @@
 #include <iostream>
 
+#include "config.h"
 #include "cpu.h"
 #include "cpu6502.h"
+#include "instruction.h"
+#include "addressMode.h"
+
+#include <cstdlib>
+#include <queue>
 
 using namespace std;
 
+/**
+  * Traditional execution loop. Fetch, decode, execute,
+  * and advance one clock cycle.
+  * TODO: clock cycles will probably have to be pushed
+  * to the instruction class, because instructions generally
+  * take more than one clock cycle to complete.
+  */
 void
-Cpu6502::execute(Instruction& inst) {
-  inst.execute();
+Cpu6502::execute() {
+  while (!q.empty()) {
+    Instruction6502* inst = q.front();
+    inst->execute();
+#ifdef EMU_DEBUG
+    inst->description();
+#endif
+    q.pop();
+    tick();
+  }
 }
 
 /**
-  * Powers on the CPU and immediately begins executing instructions.
+  * Powers on the CPU.
+  * The power function first initializes the running state.  Then
+  * it attempts to load the game. If the game load is successful, we can
+  * begin executing 6502 instructions.
   */
 void
 Cpu6502::power(bool on) {
   if (on) {
     runningState = STATE_RUNNING;
-    cout << "CPU: ON" << endl;
     init();
-    tick();
+    // load game
+    execute();
   }
   else { 
     runningState = STATE_OFF;
@@ -27,12 +51,23 @@ Cpu6502::power(bool on) {
   }
 }
 
+void
+Cpu6502::post() {
+    cout << "NESEMU version: " << NESEMU_VERSION_MAJOR \
+         << "." << NESEMU_VERSION_MINOR << endl;
+
+    cout << "Power state initialized." << endl;
+}
+
 /**
   * Initializes the CPU to default values per the specification.
   */
 void
 Cpu6502::init() {
-  // TODO: Not implemented.
+  // TODO: Not fully implemented.
+  post();
+  // TEST, add some instructions
+  q.push(new ADC(*this, this->reg, new Immediate()));
 }
 
 /**
