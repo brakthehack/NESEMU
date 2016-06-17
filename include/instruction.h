@@ -2,29 +2,40 @@
 #define INSTRUCTION_H_
 
 #include "registers.h"
+#include "cpu6502.h"
 #include "addressMode.h"
 
 #include <cinttypes>
 #include <cassert>
 
-class Cpu6502;
-
 class Instruction {
 
 public:
-  virtual void execute() = 0;
+  virtual void execute(uint8_t operand) = 0;
 };
 
 class Instruction6502 : public Instruction {
 
 public:
-  virtual void execute() = 0;
+  void execute(uint8_t operand) {
+  cpu.printRegisters();
+#ifdef DEBUG
+  cpu.printRegisters();
+#endif 
+    addr->before(reg);
+    operate(operand);
+    addr->after(reg);
+#ifdef DEBUG
+  cpu.printRegisters();
+#endif
+  }
 
   ~Instruction6502() {
-    free(addr);
+    delete addr;
   }
 
 protected:
+  virtual void operate(uint8_t operand) {} // Default is NOP.
   Instruction6502(Cpu6502& c, registers& r, AddressMode* a) :
     cpu(c), reg(r), addr(a) {
     assert(addr != nullptr);
@@ -36,11 +47,11 @@ protected:
 };
 
 #define NEW_INSTRUCTION(INST) class INST : public Instruction6502 {\
-public:               \
-  void execute();     \
-  void description(); \
-  INST(Cpu6502& c, registers& r, AddressMode *a) : \
-    Instruction6502(c, r, a) {} \
+public:                                                            \
+  virtual void operate(uint8_t operand) override;                  \
+  void description();                                              \
+  INST(Cpu6502& c, registers& r, AddressMode *a) :                 \
+    Instruction6502(c, r, a) {}                                    \
 }
 
 NEW_INSTRUCTION(ADC);

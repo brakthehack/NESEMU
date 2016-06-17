@@ -4,6 +4,7 @@ cmake_minimum_required(VERSION 3.1)
 
 project(nesemu)
 
+set (DEBUG 1)
 set (CMAKE_CXX_STANDARD 11)
 
 include_directories("${PROJECT_SOURCE_DIR}" "${PROJECT_BINARY_DIR}" "${PROJECT_SOURCE_DIR}/include")

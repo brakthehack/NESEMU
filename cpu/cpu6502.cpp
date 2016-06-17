@@ -1,13 +1,13 @@
 #include <iostream>
+#include <bitset>
+#include <cstdlib>
+#include <queue>
 
 #include "config.h"
 #include "cpu.h"
 #include "cpu6502.h"
 #include "instruction.h"
 #include "addressMode.h"
-
-#include <cstdlib>
-#include <queue>
 
 using namespace std;
 
@@ -20,9 +20,10 @@ using namespace std;
   */
 void
 Cpu6502::execute() {
+  uint8_t placeholder;
   while (!q.empty()) {
     Instruction6502* inst = q.front();
-    inst->execute();
+    inst->execute(placeholder);
     q.pop();
     tick();
   }
@@ -78,4 +79,18 @@ Cpu6502::tick() {
 void
 Cpu6502::reset() {
   // TODO: Not implemented.
+}
+
+void
+Cpu6502::printRegisters() {
+  bitset<8> stat(reg.p);
+  cout << \
+  "-----Registers-----"                  << endl << \
+  "ACC: " << unsigned(reg.acc)           << endl << \
+  "X  : " << unsigned(reg.x)             << endl << \
+  "Y  : " << unsigned(reg.y)             << endl << \
+  "     " << "SO_BDIZC"                  << endl << \
+  "ST : " << stat                        << endl << \
+  "SP : " << hex << unsigned(reg.sp)     << endl << \
+  "PC : " << hex << unsigned(reg.pc)     << endl;
 }

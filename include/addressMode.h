@@ -5,8 +5,6 @@
 
 #include <iostream>
 
-class Cpu6502;
-
 /**
   * AddressMode defines an interface for adressing
   * modes of the 6502 CPU. Upon instruction invocation
@@ -24,13 +22,8 @@ public:
 
 class Immediate : public AddressMode {
 public:
-  void before(registers& reg) {
-    std::cout << "ADDR: BEFORE" << std::endl;
-  }
-
-  void after(registers& reg) {
-    std::cout << "ADDR: AFTER" << std::endl;
-  }
+  void before(registers& reg) {}
+  void after(registers& reg) {}
 };
 
 class ZeroPage : public AddressMode {

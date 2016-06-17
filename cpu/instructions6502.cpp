@@ -1,19 +1,14 @@
+#include "instruction.h"
+
 #include <iostream>
 #include <cinttypes>
-
-#include "cpu6502.h"
-#include "instruction.h"
 
 using namespace std;
 
 void
-ADC::execute() {
-  addr->before(reg);
-  cout << "Acc is " << hex << unsigned(reg.acc) << endl;
+ADC::operate(uint8_t op) {
   reg.acc = 0x40;
-  cout << "Acc is " << hex << unsigned(reg.acc) << endl;
-  addr->after(reg);
 }
 
 void
-NOP::execute() {/* No operation */}
+NOP::operate(uint8_t op) {/* No operation */}

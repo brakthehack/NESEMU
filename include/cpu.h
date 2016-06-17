@@ -1,11 +1,10 @@
 #ifndef CPU_H_
 #define CPU_H_
 
-#include <cstdint>
-
-#include "mmu.h"
-#include "instruction.h"
 #include "decoder.h"
+#include "mmu.h"
+
+#include <cstdint>
 
 /** Abstract class for a CPU.
   * This class provides the functionality common
@@ -42,6 +41,7 @@ protected:
   virtual void execute() = 0;
   virtual void tick() = 0;
   virtual void post() = 0;
+
 };
 
 #endif

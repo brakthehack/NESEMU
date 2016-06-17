@@ -1,13 +1,14 @@
 #ifndef CPU6502_H_
 #define CPU6502_H_
 
+#include <queue>
+
 #include "cpu.h"
 #include "registers.h"
-#include "instruction.h"
 #include "decoder.h"
 #include "mmu.h"
 
-#include <queue>
+class Instruction6502;
 
 class Cpu6502 : Cpu {
 public:
@@ -34,6 +35,8 @@ public:
 
   virtual void power(bool on);
   virtual void reset();
+
+  virtual void printRegisters();
 
   Cpu6502(Decoder *d, Mmu *m) :
     Cpu::Cpu(d, m) {
