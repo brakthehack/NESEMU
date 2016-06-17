@@ -18,15 +18,14 @@ class Instruction6502 : public Instruction {
 
 public:
   void execute(uint8_t operand) {
-  cpu.printRegisters();
-#ifdef DEBUG
-  cpu.printRegisters();
+#ifdef DEBUG_ON
+    cpu.printRegisters();
 #endif 
     addr->before(reg);
     operate(operand);
     addr->after(reg);
-#ifdef DEBUG
-  cpu.printRegisters();
+#ifdef DEBUG_ON
+    cpu.printRegisters();
 #endif
   }
 

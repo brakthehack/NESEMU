@@ -4,7 +4,6 @@ cmake_minimum_required(VERSION 3.1)
 
 project(nesemu)
 
-set (DEBUG 1)
 set (CMAKE_CXX_STANDARD 11)
 
 include_directories("${PROJECT_SOURCE_DIR}" "${PROJECT_BINARY_DIR}" "${PROJECT_SOURCE_DIR}/include")
@@ -12,11 +11,12 @@ include_directories("${PROJECT_SOURCE_DIR}" "${PROJECT_BINARY_DIR}" "${PROJECT_S
 set (NESEMU_VERSION_MAJOR 1)
 set (NESEMU_VERSION_MINOR 0)
 
+add_definitions(-DDEBUG_ON)
+
 configure_file (
   "${PROJECT_SOURCE_DIR}/Config.h.in"
   "${PROJECT_SOURCE_DIR}/include/config.h"
   )
-
 
 file(GLOB CPU_SRC
     "${PROJECT_SOURCE_DIR}/cpu/*.cpp"

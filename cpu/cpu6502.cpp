@@ -74,6 +74,7 @@ Cpu6502::init() {
 void
 Cpu6502::tick() {
   cout << "Tick!" << endl;
+  reg.pc += 4;
 }
 
 void
