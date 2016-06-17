@@ -7,8 +7,14 @@ using namespace std;
 
 void
 ADC::operate(uint8_t op) {
-  reg.acc = 0x40;
-}
+  int temp = reg.acc + op + cpu.carry();
+  bool zeroResult = temp == 0;
+  reg.acc = temp & 0xFF;
 
-void
-NOP::operate(uint8_t op) {/* No operation */}
+  cpu.zero(zeroResult);
+  if (!zeroResult) {
+    cpu.carry((temp >> 8) & 0x1);
+    cpu.negative(temp < 0);
+    cpu.overflow(temp > 0xFF);
+  }
+}

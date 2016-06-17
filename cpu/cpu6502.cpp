@@ -20,7 +20,8 @@ using namespace std;
   */
 void
 Cpu6502::execute() {
-  uint8_t placeholder;
+  uint8_t placeholder = 0xFF;
+  reg.acc = 0x2;
   while (!q.empty()) {
     Instruction6502* inst = q.front();
     inst->execute(placeholder);
@@ -64,6 +65,13 @@ void
 Cpu6502::init() {
   // TODO: Not fully implemented.
   post();
+  // Reset All registers.
+  reg.acc = 0;
+  reg.x = 0;
+  reg.y = 0;
+  reg.p = 0x20;
+  reg.pc = 0;
+  reg.sp = 0xFF;
   // TEST, add some instructions
   q.push(new ADC(*this, this->reg, new Immediate()));
 }
