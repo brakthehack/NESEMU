@@ -20,8 +20,8 @@ using namespace std;
   */
 void
 Cpu6502::execute() {
-  uint8_t placeholder = 0xFF;
-  reg.acc = 0x2;
+  uint8_t placeholder = 0x40;
+  reg.acc = 0x40;
   while (!q.empty()) {
     Instruction6502* inst = q.front();
     inst->execute(placeholder);
@@ -91,11 +91,16 @@ Cpu6502::reset() {
 }
 
 void
-Cpu6502::printRegisters() {
+Cpu6502::printRegisters(uint8_t operand) {
+  bitset<8> ac(reg.acc);
+  bitset<8> op(operand);
   bitset<8> stat(reg.p);
   cout << \
+  "------Operand------"                  << endl << \
+  "OP : " << op                          << endl << \
   "-----Registers-----"                  << endl << \
   "ACC: " << unsigned(reg.acc)           << endl << \
+  "ACC: " << ac                          << endl << \
   "X  : " << unsigned(reg.x)             << endl << \
   "Y  : " << unsigned(reg.y)             << endl << \
   "     " << "SO_BDIZC"                  << endl << \

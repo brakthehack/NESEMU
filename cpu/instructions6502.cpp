@@ -8,13 +8,9 @@ using namespace std;
 void
 ADC::operate(uint8_t op) {
   int temp = reg.acc + op + cpu.carry();
-  bool zeroResult = temp == 0;
+  cpu.zero(temp & 0xFF);
+  cpu.carry(temp);
+  cpu.negative(temp & 0xFF);
+  cpu.overflow(op, temp);
   reg.acc = temp & 0xFF;
-
-  cpu.zero(zeroResult);
-  if (!zeroResult) {
-    cpu.carry((temp >> 8) & 0x1);
-    cpu.negative(temp < 0);
-    cpu.overflow(temp > 0xFF);
-  }
 }

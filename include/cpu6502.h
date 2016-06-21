@@ -13,7 +13,7 @@ class Instruction6502;
 class Cpu6502 : Cpu {
 public:
 
-  inline int carry()     { return reg.p & 0x01 << 8; }
+  inline int carry()     { return reg.p & 0x01; }
   inline bool zero()     { return reg.p & 0x02 != 0; }
   inline bool irq()      { return reg.p & 0x04 != 0; }
   inline bool decimal()  { return reg.p & 0x08 != 0; }
@@ -22,21 +22,47 @@ public:
   inline bool overflow() { return reg.p & 0x40 != 0; }
   inline bool negative() { return reg.p & 0x80 != 0; }
 
-  // A set flag indicates a bit set at the appropriately described position.
-  // An unset flag will result in the bit being cleared.
-  inline void carry(int set)     { reg.p ^= (-set ^ reg.p) & 1; }
-  inline void zero(bool set)     { set ? reg.p |= 0x02 : reg.p &= ~0x02; } 
-  inline void irq(bool set)      { set ? reg.p |= 0x04 : reg.p &= ~0x04; }
-  inline void decimal(bool set)  { set ? reg.p |= 0x08 : reg.p &= ~0x08; }
-  inline void brk(bool set)      { set ? reg.p |= 0x10 : reg.p &= ~0x10; }
+  void carry(int result) { 
+    reg.p &= ~0x1;
+    reg.p |= result >> 8;
+  }
+  
+  void zero(uint8_t result){
+    if (result == 0)
+      reg.p |= 0x02;
+    else
+      reg.p &= ~0x02;
+  }
+
+  void irq(bool set) { 
+    set ? reg.p |= 0x04 : reg.p &= ~0x04; 
+  }
+
+  void decimal(bool set)  {
+    set ? reg.p |= 0x08 : reg.p &= ~0x08;
+  }
+  
+  void brk(bool set) {
+    set ? reg.p |= 0x10 : reg.p &= ~0x10;
+  }
+  
   // Once again 0x20 is not used.
-  inline void overflow(bool set) { set ? reg.p |= 0x40 : reg.p &= ~0x40; }
-  inline void negative(bool set) { set ? reg.p |= 0x80 : reg.p &= ~0x80; }
+  
+  void overflow(uint8_t op, uint8_t result) { 
+    reg.p &= ~0x40;
+    // Check position 7; move answer to position 6.
+    reg.p |= (~(op ^ reg.acc) | result) >> 1 & 0x40;
+  }
+  
+  void negative(uint8_t result) {
+    reg.p &= ~0x80;
+    reg.p |= result & 0x80;
+  }
 
   virtual void power(bool on);
   virtual void reset();
 
-  virtual void printRegisters();
+  virtual void printRegisters(uint8_t operand);
 
   Cpu6502(Decoder *d, Mmu *m) :
     Cpu::Cpu(d, m) {
