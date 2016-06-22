@@ -2,6 +2,7 @@
 #include <bitset>
 #include <cstdlib>
 #include <queue>
+#include <thread>
 
 #include "config.h"
 #include "cpu.h"
@@ -82,6 +83,7 @@ Cpu6502::init() {
 void
 Cpu6502::tick() {
   cout << "Tick!" << endl;
+  this_thread::sleep_for(chrono::seconds(1));
   reg.pc += 4;
 }
 

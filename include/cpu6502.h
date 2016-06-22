@@ -13,6 +13,17 @@ class Instruction6502;
 class Cpu6502 : Cpu {
 public:
 
+  virtual void power(bool on);
+  virtual void reset();
+
+  virtual void printRegisters(uint8_t operand);
+
+  Cpu6502(Decoder *d, Mmu *m) :
+    Cpu::Cpu(d, m) {
+    reg.sp = 0xff;
+    reg.p = 0x20;
+  }
+
   inline int carry()     { return reg.p & 0x01; }
   inline bool zero()     { return reg.p & 0x02 != 0; }
   inline bool irq()      { return reg.p & 0x04 != 0; }
@@ -59,18 +70,8 @@ public:
     reg.p |= result & 0x80;
   }
 
-  virtual void power(bool on);
-  virtual void reset();
-
-  virtual void printRegisters(uint8_t operand);
-
-  Cpu6502(Decoder *d, Mmu *m) :
-    Cpu::Cpu(d, m) {
-    reg.sp = 0xff;
-    reg.p = 0x20;
-  }
-
 private:
+
   registers reg;
   std::queue<Instruction6502 *> q;
 
@@ -79,6 +80,7 @@ private:
 
   void init();
   void post();
+
 };
 
 #endif

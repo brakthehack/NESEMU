@@ -34,7 +34,7 @@ public:
   }
 
 protected:
-  virtual void operate(uint8_t operand) {} // Default is NOP.
+  virtual void operate(uint8_t& operand) {} // Default is NOP.
   Instruction6502(Cpu6502& c, registers& r, AddressMode* a) :
     cpu(c), reg(r), addr(a) {
     assert(addr != nullptr);
@@ -47,7 +47,7 @@ protected:
 
 #define NEW_INSTRUCTION(INST) class INST : public Instruction6502 {\
 public:                                                            \
-  virtual void operate(uint8_t operand) override;                  \
+  virtual void operate(uint8_t& operand) override;                  \
   void description();                                              \
   INST(Cpu6502& c, registers& r, AddressMode *a) :                 \
     Instruction6502(c, r, a) {}                                    \
@@ -82,6 +82,9 @@ NEW_INSTRUCTION(INX);
 NEW_INSTRUCTION(INY);
 NEW_INSTRUCTION(JMP);
 NEW_INSTRUCTION(JSR);
+NEW_INSTRUCTION(LDA);
+NEW_INSTRUCTION(LDX);
+NEW_INSTRUCTION(LDY);
 NEW_INSTRUCTION(LSR);
 NEW_INSTRUCTION(NOP);
 NEW_INSTRUCTION(ORA);
