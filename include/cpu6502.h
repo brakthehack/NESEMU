@@ -10,7 +10,7 @@
 
 class Instruction6502;
 
-class Cpu6502 : Cpu {
+class Cpu6502: Cpu {
 public:
 
   virtual void power(bool on);
@@ -19,9 +19,15 @@ public:
   virtual void printRegisters(uint8_t operand);
 
   Cpu6502(Decoder *d, Mmu *m) :
-    Cpu::Cpu(d, m) {
+    Cpu::Cpu(d), mmu(m) {
+    q = new std::queue<Instruction6502 *>();
     reg.sp = 0xff;
     reg.p = 0x20;
+  }
+
+  ~Cpu6502() {
+    delete mmu;
+    delete q;
   }
 
   inline int carry()     { return reg.p & 0x01; }
@@ -69,11 +75,17 @@ public:
     reg.p &= ~0x80;
     reg.p |= result & 0x80;
   }
-
+  
+  void push(uint8_t op);
+  uint8_t pop();
+  
 private:
-
+ 
   registers reg;
-  std::queue<Instruction6502 *> q;
+  
+  Mmu *mmu;
+  
+  std::queue<Instruction6502 *> *q;
 
   void execute();
   void tick();

@@ -258,6 +258,33 @@ main.cpp.s:
 	$(MAKE) -f CMakeFiles/nesemu.dir/build.make CMakeFiles/nesemu.dir/main.cpp.s
 .PHONY : main.cpp.s
 
+mmu/mmu.o: mmu/mmu.cpp.o
+
+.PHONY : mmu/mmu.o
+
+# target to build an object file
+mmu/mmu.cpp.o:
+	$(MAKE) -f CMakeFiles/nesemu.dir/build.make CMakeFiles/nesemu.dir/mmu/mmu.cpp.o
+.PHONY : mmu/mmu.cpp.o
+
+mmu/mmu.i: mmu/mmu.cpp.i
+
+.PHONY : mmu/mmu.i
+
+# target to preprocess a source file
+mmu/mmu.cpp.i:
+	$(MAKE) -f CMakeFiles/nesemu.dir/build.make CMakeFiles/nesemu.dir/mmu/mmu.cpp.i
+.PHONY : mmu/mmu.cpp.i
+
+mmu/mmu.s: mmu/mmu.cpp.s
+
+.PHONY : mmu/mmu.s
+
+# target to generate assembly for a file
+mmu/mmu.cpp.s:
+	$(MAKE) -f CMakeFiles/nesemu.dir/build.make CMakeFiles/nesemu.dir/mmu/mmu.cpp.s
+.PHONY : mmu/mmu.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -282,6 +309,9 @@ help:
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"
+	@echo "... mmu/mmu.o"
+	@echo "... mmu/mmu.i"
+	@echo "... mmu/mmu.s"
 .PHONY : help
 
 

@@ -4,9 +4,9 @@
 #include "registers.h"
 #include "cpu6502.h"
 #include "addressMode.h"
+#include "util.h"
 
 #include <cinttypes>
-#include <cassert>
 
 class Instruction {
 
@@ -37,7 +37,7 @@ protected:
   virtual void operate(uint8_t& operand) {} // Default is NOP.
   Instruction6502(Cpu6502& c, registers& r, AddressMode* a) :
     cpu(c), reg(r), addr(a) {
-    assert(addr != nullptr);
+    ASSERT(addr != nullptr);
   }
 
   Cpu6502& cpu;

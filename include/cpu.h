@@ -6,10 +6,9 @@
 
 #include <cstdint>
 
-/** Abstract class for a CPU.
-  * This class provides the functionality common
-  * to most CPUs.  This is done in an attempt to reuse exiting
-  * code for future emulators.
+/** 
+  * Abstract class for a CPU.
+  * This class provides the functionality common to most CPUs.
   */
 class Cpu {
 
@@ -23,19 +22,18 @@ public:
   
   virtual void power(bool on) = 0;
   virtual void reset() = 0;
+
   State state() { return runningState; }
 
-  Cpu(Decoder *dec, Mmu *m) :
-    decoder(dec), mmu(m) {}
+  Cpu(Decoder *dec) :
+    decoder(dec) {}
 
   ~Cpu() {
     delete decoder;
-    delete mmu;
   }
 
 protected:
   State runningState;
-  Mmu *mmu;
   Decoder *decoder; // Decodes instructions.
 
   virtual void execute() = 0;

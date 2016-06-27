@@ -23,10 +23,10 @@ void
 Cpu6502::execute() {
   uint8_t placeholder = 0x40;
   reg.acc = 0x40;
-  while (!q.empty()) {
-    Instruction6502* inst = q.front();
+  while (!q->empty()) {
+    Instruction6502* inst = q->front();
     inst->execute(placeholder);
-    q.pop();
+    q->pop();
     tick();
   }
 }
@@ -74,7 +74,24 @@ Cpu6502::init() {
   reg.pc = 0;
   reg.sp = 0xFF;
   // TEST, add some instructions
-  q.push(new ADC(*this, this->reg, new Immediate()));
+  q->push(new ADC(*this, this->reg, new Immediate()));
+}
+
+
+// Instructions.
+void
+Cpu6502::push(uint8_t op) {
+  reg.sp -= 4;
+  ASSERT(reg.sp != 0);
+  mmu->put(op, reg.sp);
+}
+
+uint8_t
+Cpu6502::pop() {
+  uint8_t temp = mmu->get(reg.sp);
+  reg.sp += 4;
+  ASSERT(reg.sp <= 0xFF);
+  return temp;
 }
 
 /**

@@ -284,19 +284,21 @@ ORA::operate(uint8_t& op) {
 // Push accmumulator on stack.
 void
 PHA::operate(uint8_t&) {
-  // TODO: implement.
+  cpu.push(reg.acc);
 }
 
 // Push processor status on stack.
 void
 PHP::operate(uint8_t&) {
-  // TODO: implement.
+  cpu.push(reg.p);
 }
 
 // Pull accumulator from stack.
 void
-PLA::operate(uint8_t&) {
-  // TODO: implement
+PLA::operate(uint8_t& op) {
+  op = cpu.pop();
+  cpu.zero(op);
+  cpu.negative(op);
 }
 
 // Rotate one bit left.
