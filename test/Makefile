@@ -91,14 +91,14 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/brak/dev/NESEMU/CMakeFiles /home/brak/dev/NESEMU/CMakeFiles/progress.marks
-	$(MAKE) -f CMakeFiles/Makefile2 all
+	cd /home/brak/dev/NESEMU && $(CMAKE_COMMAND) -E cmake_progress_start /home/brak/dev/NESEMU/CMakeFiles /home/brak/dev/NESEMU/test/CMakeFiles/progress.marks
+	cd /home/brak/dev/NESEMU && $(MAKE) -f CMakeFiles/Makefile2 test/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/brak/dev/NESEMU/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
 clean:
-	$(MAKE) -f CMakeFiles/Makefile2 clean
+	cd /home/brak/dev/NESEMU && $(MAKE) -f CMakeFiles/Makefile2 test/clean
 .PHONY : clean
 
 # The main clean target
@@ -108,57 +108,60 @@ clean/fast: clean
 
 # Prepare targets for installation.
 preinstall: all
-	$(MAKE) -f CMakeFiles/Makefile2 preinstall
+	cd /home/brak/dev/NESEMU && $(MAKE) -f CMakeFiles/Makefile2 test/preinstall
 .PHONY : preinstall
 
 # Prepare targets for installation.
 preinstall/fast:
-	$(MAKE) -f CMakeFiles/Makefile2 preinstall
+	cd /home/brak/dev/NESEMU && $(MAKE) -f CMakeFiles/Makefile2 test/preinstall
 .PHONY : preinstall/fast
 
 # clear depends
 depend:
-	$(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
+	cd /home/brak/dev/NESEMU && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
 .PHONY : depend
 
-#=============================================================================
-# Target rules for targets named nesemu
+# Convenience name for target.
+test/CMakeFiles/unit-test.dir/rule:
+	cd /home/brak/dev/NESEMU && $(MAKE) -f CMakeFiles/Makefile2 test/CMakeFiles/unit-test.dir/rule
+.PHONY : test/CMakeFiles/unit-test.dir/rule
 
-# Build rule for target.
-nesemu: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 nesemu
-.PHONY : nesemu
+# Convenience name for target.
+unit-test: test/CMakeFiles/unit-test.dir/rule
 
-# fast build rule for target.
-nesemu/fast:
-	$(MAKE) -f src/CMakeFiles/nesemu.dir/build.make src/CMakeFiles/nesemu.dir/build
-.PHONY : nesemu/fast
-
-#=============================================================================
-# Target rules for targets named emulator
-
-# Build rule for target.
-emulator: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 emulator
-.PHONY : emulator
-
-# fast build rule for target.
-emulator/fast:
-	$(MAKE) -f src/CMakeFiles/emulator.dir/build.make src/CMakeFiles/emulator.dir/build
-.PHONY : emulator/fast
-
-#=============================================================================
-# Target rules for targets named unit-test
-
-# Build rule for target.
-unit-test: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 unit-test
 .PHONY : unit-test
 
 # fast build rule for target.
 unit-test/fast:
-	$(MAKE) -f test/CMakeFiles/unit-test.dir/build.make test/CMakeFiles/unit-test.dir/build
+	cd /home/brak/dev/NESEMU && $(MAKE) -f test/CMakeFiles/unit-test.dir/build.make test/CMakeFiles/unit-test.dir/build
 .PHONY : unit-test/fast
+
+test.o: test.cpp.o
+
+.PHONY : test.o
+
+# target to build an object file
+test.cpp.o:
+	cd /home/brak/dev/NESEMU && $(MAKE) -f test/CMakeFiles/unit-test.dir/build.make test/CMakeFiles/unit-test.dir/test.cpp.o
+.PHONY : test.cpp.o
+
+test.i: test.cpp.i
+
+.PHONY : test.i
+
+# target to preprocess a source file
+test.cpp.i:
+	cd /home/brak/dev/NESEMU && $(MAKE) -f test/CMakeFiles/unit-test.dir/build.make test/CMakeFiles/unit-test.dir/test.cpp.i
+.PHONY : test.cpp.i
+
+test.s: test.cpp.s
+
+.PHONY : test.s
+
+# target to generate assembly for a file
+test.cpp.s:
+	cd /home/brak/dev/NESEMU && $(MAKE) -f test/CMakeFiles/unit-test.dir/build.make test/CMakeFiles/unit-test.dir/test.cpp.s
+.PHONY : test.cpp.s
 
 # Help Target
 help:
@@ -169,9 +172,10 @@ help:
 	@echo "... test"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
-	@echo "... nesemu"
-	@echo "... emulator"
 	@echo "... unit-test"
+	@echo "... test.o"
+	@echo "... test.i"
+	@echo "... test.s"
 .PHONY : help
 
 
@@ -183,6 +187,6 @@ help:
 # No rule that depends on this can have commands that come from listfiles
 # because they might be regenerated.
 cmake_check_build_system:
-	$(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
+	cd /home/brak/dev/NESEMU && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
 .PHONY : cmake_check_build_system
 

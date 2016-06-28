@@ -7,6 +7,9 @@
 #include "util.h"
 
 #include <cinttypes>
+#include <stdexcept>
+
+#define NOT_IMPLEMENTED throw std::runtime_error("Not implemented")
 
 class Instruction {
 
@@ -19,13 +22,13 @@ class Instruction6502 : public Instruction {
 public:
   void execute(uint8_t operand) {
 #ifdef DEBUG_ON
-    cpu.printRegisters(operand);
+    cpu.print_registers(operand);
 #endif 
     addr->before(reg);
     operate(operand);
     addr->after(reg);
 #ifdef DEBUG_ON
-    cpu.printRegisters(operand);
+    cpu.print_registers(operand);
 #endif
   }
 
@@ -98,6 +101,7 @@ NEW_INSTRUCTION(RTI);
 NEW_INSTRUCTION(RTS);
 NEW_INSTRUCTION(SBC);
 NEW_INSTRUCTION(SEC);
+NEW_INSTRUCTION(SED);
 NEW_INSTRUCTION(SEI);
 NEW_INSTRUCTION(STA);
 NEW_INSTRUCTION(STX);

@@ -9,10 +9,16 @@ using namespace std;
 void
 ADC::operate(uint8_t& op) {
   int temp = reg.acc + op + cpu.carry();
+  
   cpu.zero(temp & 0xFF);
-  cpu.carry(temp);
   cpu.negative(temp & 0xFF);
   cpu.overflow(op, temp);
+ 
+  if (cpu.decimal()) {
+
+  }
+
+  cpu.carry(temp);
   reg.acc = temp & 0xFF;
 }
 
@@ -138,7 +144,7 @@ CLV::operate(uint8_t&) {
 // Add 1 if page boundry is crossed.
 void
 CMP::operate(uint8_t& op) {
-  // TODO: test this function
+  // TODO: TESTfunction
   int temp = reg.acc + (0x80 ^ op);
   op = temp;
   cpu.carry(temp);
@@ -301,4 +307,148 @@ PLA::operate(uint8_t& op) {
   cpu.negative(op);
 }
 
-// Rotate one bit left.
+// Pull processor status from stack.
+void
+PLP::operate(uint8_t& op) {
+  op = cpu.pop();
+  reg.p = op;
+}
+
+// Rotate left one bit.
+void
+ROL::operate(uint8_t& op) {
+  //TODO: TEST
+  int temp = op << 1;
+  temp |= temp >> 8;
+  op = temp;
+  cpu.carry(temp);
+  cpu.negative(op);
+  cpu.zero(op);
+}
+
+// Rotate right one bit.
+void
+ROR::operate(uint8_t& op) {
+  //TODO: TEST
+  int save = (op & 0x1) << 7;
+  int temp = (op >> 1) | save;
+  op = temp;
+  cpu.carry(temp);
+  cpu.negative(op);
+  cpu.zero(op);
+}
+
+// Return from interrupt.
+void
+RTI::operate(uint8_t&) {
+  // TODO: TEST
+  reg.p = cpu.pop();
+  reg.pc = cpu.pop();
+  reg.pc |= (cpu.pop() << 8);
+}
+
+// Return from subroutine.
+void
+RTS::operate(uint8_t&) {
+  reg.pc = cpu.pop();
+  reg.pc += (cpu.pop() << 8) + 1;
+}
+
+// Subtract memory from accmuluator with borrow.
+void
+SBC::operate(uint8_t& op) {
+  //TODO: TEST
+  uint8_t temp = reg.acc - op - (cpu.carry() ? 1 : 0);
+  cpu.zero(temp);
+  cpu.overflow(reg.acc, temp);
+  cpu.negative(temp);
+  
+  if (cpu.decimal()) {
+
+  }
+
+  cpu.carry(reg.acc < op ? -1 : 0);
+  reg.acc = temp;
+}
+
+// Set carry flag.
+void
+SEC::operate(uint8_t&) {
+  reg.p |= STATUS::CARRY;
+}
+
+// Set decimal mode.
+void
+SED::operate(uint8_t&) {
+  reg.p |= STATUS::DECIMAL;
+}
+
+// Set interrupt disabled status.
+void
+SEI::operate(uint8_t&) {
+  reg.p |= STATUS::BRK;
+}
+
+// Store accumulator in memory.
+void
+STA::operate(uint8_t& op) {
+  op = reg.acc;
+}
+
+// Store index X in memory
+void
+STX::operate(uint8_t& op) {
+  op = reg.x;
+}
+
+// Store index Y in memory.
+void
+STY::operate(uint8_t& op) {
+  op = reg.y;
+}
+
+// Transfer accmumulator to index X.
+void
+TAX::operate(uint8_t&) {
+  reg.x = reg.acc;
+  cpu.negative(reg.x);
+  cpu.zero(reg.x);
+}
+
+// Transfer accmuluator to index Y.
+void
+TAY::operate(uint8_t&) {
+  reg.y = reg.acc;
+  cpu.negative(reg.y);
+  cpu.zero(reg.y);
+}
+
+// Transfer stack pointer to index X.
+void
+TSX::operate(uint8_t&) {
+  reg.x = reg.sp;
+  cpu.negative(reg.x);
+  cpu.zero(reg.x);
+}
+
+// Transfer index X to accumulator.
+void
+TXA::operate(uint8_t&) {
+  reg.acc = reg.x;
+  cpu.negative(reg.acc);
+  cpu.zero(reg.acc);
+}
+
+// Transfer index X to stack pointer.
+void
+TXS::operate(uint8_t&) {
+  reg.sp = reg.x;
+}
+
+// Transfer index Y to accumulator.
+void
+TYA::operate(uint8_t&) {
+  reg.acc = reg.y;
+  cpu.negative(reg.acc);
+  cpu.zero(reg.acc);
+}

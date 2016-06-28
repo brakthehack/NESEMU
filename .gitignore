@@ -1,6 +1,7 @@
 CMakeCache.txt
 *.cmake
 CMakeFiles/
+test/CMakeFiles/
 nesemu
 *.swp
-
+Testing/

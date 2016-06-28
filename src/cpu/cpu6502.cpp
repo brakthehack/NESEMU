@@ -21,21 +21,21 @@ using namespace std;
   */
 void
 Cpu6502::execute() {
-  uint8_t placeholder = 0x40;
-  reg.acc = 0x40;
+  uint8_t op = 0;
   while (!q->empty()) {
     Instruction6502* inst = q->front();
-    inst->execute(placeholder);
+    inst->execute(op);
     q->pop();
     tick();
   }
 }
 
+
 /**
   * Powers on the CPU.
   * The power function first initializes the running state.  Then
-  * it attempts to load the game. If the game load is successful, we can
-  * begin executing 6502 instructions.
+  * it attempts to load the game. If the game load is successful,
+  * we can begin executing 6502 instructions.
   */
 void
 Cpu6502::power(bool on) {
@@ -73,8 +73,6 @@ Cpu6502::init() {
   reg.p = 0x20;
   reg.pc = 0;
   reg.sp = 0xFF;
-  // TEST, add some instructions
-  q->push(new ADC(*this, this->reg, new Immediate()));
 }
 
 
@@ -99,9 +97,11 @@ Cpu6502::pop() {
   */
 void
 Cpu6502::tick() {
+#ifdef NO_TICK
   cout << "Tick!" << endl;
   this_thread::sleep_for(chrono::seconds(1));
   reg.pc += 4;
+#endif
 }
 
 void
@@ -110,7 +110,7 @@ Cpu6502::reset() {
 }
 
 void
-Cpu6502::printRegisters(uint8_t operand) {
+Cpu6502::print_registers(uint8_t operand) {
   bitset<8> ac(reg.acc);
   bitset<8> op(operand);
   bitset<8> stat(reg.p);
