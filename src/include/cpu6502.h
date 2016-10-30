@@ -33,14 +33,14 @@ public:
     delete q;
   }
 
-  inline int carry()     { return reg.p & STATUS::CARRY; }
-  inline bool zero()     { return reg.p & STATUS::ZERO!= 0; }
-  inline bool irq()      { return reg.p & STATUS::IRQ != 0; }
-  inline bool decimal()  { return reg.p & STATUS::DECIMAL != 0; }
-  inline bool brk()      { return reg.p & STATUS::BRK != 0; }
+  inline int carry()     { return (reg.p & STATUS::CARRY); }
+  inline bool zero()     { return (reg.p & STATUS::ZERO) != 0; }
+  inline bool irq()      { return (reg.p & STATUS::IRQ) != 0; }
+  inline bool decimal()  { return (reg.p & STATUS::DECIMAL) != 0; }
+  inline bool brk()      { return (reg.p & STATUS::BRK) != 0; }
   // 0x20 flag is not used.  It is used by stack copy.
-  inline bool overflow() { return reg.p & STATUS::OVERFLOW != 0; }
-  inline bool negative() { return reg.p & STATUS::NEGATIVE != 0; }
+  inline bool overflow() { return (reg.p & STATUS::OVERFLOW) != 0; }
+  inline bool negative() { return (reg.p & STATUS::NEGATIVE) != 0; }
 
   void carry(int result) { 
     reg.p &= ~0x1;

@@ -13,7 +13,7 @@ public:
     data = new uint8_t[memSize];
   }
 
-  ~Mmu() {
+  virtual ~Mmu() {
     delete[] data;
   }
 

@@ -32,10 +32,6 @@ public:
 #endif
   }
 
-  ~Instruction6502() {
-    delete addr;
-  }
-
 protected:
   virtual void operate(uint8_t& operand) {} // Default is NOP.
   Instruction6502(Cpu6502& c, registers& r, AddressMode* a) :
