@@ -1,4 +1,5 @@
 #include <iostream>
+#include <sstream>
 #include <bitset>
 #include <cstdlib>
 #include <queue>
@@ -21,10 +22,9 @@ using namespace std;
   */
 void
 Cpu6502::execute() {
-  uint8_t op = 0;
   while (!q->empty()) {
     Instruction6502* inst = q->front();
-    inst->execute(op);
+    inst->execute();
     q->pop();
     tick();
   }
@@ -109,12 +109,13 @@ Cpu6502::reset() {
   // TODO: Not implemented.
 }
 
-void
+string
 Cpu6502::print_registers(uint8_t operand) {
+  stringstream ss;
   bitset<8> ac(reg.acc);
   bitset<8> op(operand);
   bitset<8> stat(reg.p);
-  cout << \
+  ss << \
   "------Operand------"                  << endl << \
   "OP : " << op                          << endl << \
   "-----Registers-----"                  << endl << \
@@ -126,4 +127,5 @@ Cpu6502::print_registers(uint8_t operand) {
   "ST : " << stat                        << endl << \
   "SP : " << hex << unsigned(reg.sp)     << endl << \
   "PC : " << hex << unsigned(reg.pc)     << endl;
+  return ss.str();
 }

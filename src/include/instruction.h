@@ -14,27 +14,26 @@
 class Instruction {
 
 public:
-  virtual void execute(uint8_t operand) = 0;
+  virtual void execute() = 0;
 };
 
 class Instruction6502 : public Instruction {
 
 public:
-  void execute(uint8_t operand) {
-#ifdef DEBUG_ON
+  void execute() {
+    uint8_t operand = addr->fetch(reg);
+    #ifdef DEBUG_ON
     cpu.print_registers(operand);
-#endif 
-    addr->before(reg);
+    #endif 
     operate(operand);
-    addr->after(reg);
-#ifdef DEBUG_ON
+    #ifdef DEBUG_ON
     cpu.print_registers(operand);
-#endif
+    #endif
   }
 
 protected:
   virtual void operate(uint8_t& operand) {} // Default is NOP.
-  Instruction6502(Cpu6502& c, registers& r, AddressMode* a) :
+  Instruction6502(Cpu6502& c, registers& r, AddressMode *a) :
     cpu(c), reg(r), addr(a) {
     ASSERT(addr != nullptr);
   }
@@ -46,7 +45,7 @@ protected:
 
 #define NEW_INSTRUCTION(INST) class INST : public Instruction6502 {\
 public:                                                            \
-  virtual void operate(uint8_t& operand) override;                  \
+  virtual void operate(uint8_t& operand) override;                 \
   void description();                                              \
   INST(Cpu6502& c, registers& r, AddressMode *a) :                 \
     Instruction6502(c, r, a) {}                                    \

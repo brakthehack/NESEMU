@@ -1,5 +1,4 @@
-#ifndef ADDRESS_MODE_H_
-#define ADDRESS_MODE_H_
+#pragma once
 
 #include "registers.h"
 
@@ -14,70 +13,17 @@
   * to remain separate from addressing modes, and will
   * allow address mode reuse.
   */
+
+typedef uint8_t (* AddressCallback)(registers& reg);
+
 class AddressMode {
 public:
-  virtual void before(registers& reg) = 0;
-  virtual void after(registers& reg) = 0;
+  AddressMode(AddressCallback f) :
+    fetch(f) {}
+
+  AddressCallback fetch;
 };
 
-class Immediate : public AddressMode {
-public:
-  void before(registers& reg) {}
-  void after(registers& reg) {}
-};
-
-class ZeroPage : public AddressMode {
-public:
-  void before(registers& reg);
-  void after(registers& reg);
-};
-
-class ZeroPageX : public ZeroPage {
-public:
-  void before(registers& reg);
-  void after(registers& reg);
-};
-
-class Absolute : public AddressMode {
-public:
-  void before(registers& reg);
-  void after(registers& reg);
-};
-
-class AbsoluteX : public Absolute {
-public:
-  void before(registers& reg);
-  void after(registers& reg);
-};
-
-class AbsoluteY : public Absolute {
-public:
-  void before(registers& reg);
-  void after(registers& reg);
-};
-
-class Relative : public AddressMode {
-public:
-  void before(registers& reg);
-  void after(registers& reg);
-};
-
-class Implied : public AddressMode {
-public:
-  void before(registers& reg) {}
-  void after(registers& reg) {}
-};
-
-class IndirectX : public AddressMode {
-public:
-  void before(registers& reg);
-  void after(registers& reg);
-};
-
-class IndirectY : public AddressMode {
-public:
-  void before(registers& reg);
-  void after(registers& reg);
-};
-
-#endif
+namespace Immediate {
+  uint8_t fetch(registers& reg);
+}

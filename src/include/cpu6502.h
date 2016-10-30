@@ -2,6 +2,7 @@
 #define CPU6502_H_
 
 #include <queue>
+#include <string>
 
 #include "cpu.h"
 #include "registers.h"
@@ -19,7 +20,7 @@ public:
   virtual void power(bool on);
   virtual void reset();
 
-  virtual void print_registers(uint8_t operand);
+  virtual std::string print_registers(uint8_t operand);
 
   Cpu6502(Decoder *d, Mmu *m) :
     Cpu::Cpu(d), mmu(m) {
@@ -33,14 +34,14 @@ public:
     delete q;
   }
 
-  inline int carry()     { return (reg.p & STATUS::CARRY); }
-  inline bool zero()     { return (reg.p & STATUS::ZERO) != 0; }
-  inline bool irq()      { return (reg.p & STATUS::IRQ) != 0; }
-  inline bool decimal()  { return (reg.p & STATUS::DECIMAL) != 0; }
-  inline bool brk()      { return (reg.p & STATUS::BRK) != 0; }
+  inline int carry()     { return (reg.p & Registers::CARRY_FLAG); }
+  inline bool zero()     { return (reg.p & Registers::ZERO_FLAG) != 0; }
+  inline bool irq()      { return (reg.p & Registers::IRQ_FLAG) != 0; }
+  inline bool decimal()  { return (reg.p & Registers::DECIMAL_FLAG) != 0; }
+  inline bool brk()      { return (reg.p & Registers::BRK_FLAG) != 0; }
   // 0x20 flag is not used.  It is used by stack copy.
-  inline bool overflow() { return (reg.p & STATUS::OVERFLOW) != 0; }
-  inline bool negative() { return (reg.p & STATUS::NEGATIVE) != 0; }
+  inline bool overflow() { return (reg.p & Registers::OVERFLOW_FLAG) != 0; }
+  inline bool negative() { return (reg.p & Registers::NEGATIVE_FLAG) != 0; }
 
   void carry(int result) { 
     reg.p &= ~0x1;
@@ -49,34 +50,34 @@ public:
   
   void zero(uint8_t result){
     if (result == 0)
-      reg.p |= STATUS::ZERO;
+      reg.p |= Registers::ZERO_FLAG;
     else
-      reg.p &= ~STATUS::ZERO;
+      reg.p &= ~Registers::ZERO_FLAG;
   }
 
   void irq(bool set) { 
-    set ? reg.p |= STATUS::IRQ : reg.p &= ~STATUS::IRQ; 
+    set ? reg.p |= Registers::IRQ_FLAG : reg.p &= ~Registers::IRQ_FLAG; 
   }
 
   void decimal(bool set)  {
-    set ? reg.p |= STATUS::DECIMAL : reg.p &= ~STATUS::DECIMAL;
+    set ? reg.p |= Registers::DECIMAL_FLAG : reg.p &= ~Registers::DECIMAL_FLAG;
   }
   
   void brk(bool set) {
-    set ? reg.p |= STATUS::BRK : reg.p &= ~STATUS::BRK;
+    set ? reg.p |= Registers::BRK_FLAG : reg.p &= ~Registers::BRK_FLAG;
   }
   
   // Once again 0x20 is not used.
   
   void overflow(uint8_t op, uint8_t result) { 
-    reg.p &= ~STATUS::OVERFLOW;
+    reg.p &= ~Registers::OVERFLOW_FLAG;
     // Check position 7; move answer to position 6.
-    reg.p |= (~(op ^ reg.acc) | result) >> 1 & STATUS::OVERFLOW;
+    reg.p |= (~(op ^ reg.acc) | result) >> 1 & Registers::OVERFLOW_FLAG;
   }
   
   void negative(uint8_t result) {
-    reg.p &= ~STATUS::NEGATIVE;
-    reg.p |= result & STATUS::NEGATIVE;
+    reg.p &= ~Registers::NEGATIVE_FLAG;
+    reg.p |= result & Registers::NEGATIVE_FLAG;
   }
   
   void push(uint8_t op);
@@ -97,10 +98,6 @@ private:
 
   void init();
   void post();
-
-  void load_operand(uint8_t op) {
-    current_operand = op;
-  }
 
 };
 

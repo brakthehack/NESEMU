@@ -1,5 +1,4 @@
-#ifndef REGISTERS_
-#define REGISTERS_
+#pragma once
 
 #include <cinttypes>
 
@@ -11,14 +10,14 @@ typedef struct registers {
   uint16_t pc;  // Program counter.
 } registers;
 
-typedef enum {
-  CARRY      = 0x01,
-  ZERO       = 0x02,
-  IRQ        = 0x04,
-  BRK        = 0x08,
-  DECIMAL    = 0x10,
-  OVERFLOW   = 0x40,
-  NEGATIVE   = 0x80
-} STATUS;
+namespace Registers {
 
-#endif
+const uint8_t CARRY_FLAG      = 0x01;
+const uint8_t ZERO_FLAG       = 0x02;
+const uint8_t IRQ_FLAG        = 0x04;
+const uint8_t BRK_FLAG        = 0x08;
+const uint8_t DECIMAL_FLAG    = 0x10;
+const uint8_t OVERFLOW_FLAG   = 0x40;
+const uint8_t NEGATIVE_FLAG   = 0x80;
+
+} // End Registers namespace

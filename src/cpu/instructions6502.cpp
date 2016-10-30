@@ -374,19 +374,19 @@ SBC::operate(uint8_t& op) {
 // Set carry flag.
 void
 SEC::operate(uint8_t&) {
-  reg.p |= STATUS::CARRY;
+  reg.p |= Registers::CARRY_FLAG;
 }
 
 // Set decimal mode.
 void
 SED::operate(uint8_t&) {
-  reg.p |= STATUS::DECIMAL;
+  reg.p |= Registers::DECIMAL_FLAG;
 }
 
 // Set interrupt disabled status.
 void
 SEI::operate(uint8_t&) {
-  reg.p |= STATUS::BRK;
+  reg.p |= Registers::BRK_FLAG;
 }
 
 // Store accumulator in memory.

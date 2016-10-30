@@ -1,0 +1,68 @@
+#define BOOST_TEST_MODULE InstructionTest 
+
+#include "instruction.h"
+#include "addressMode.h"
+#include "cpu6502.h"
+
+#include <cinttypes>
+#include <boost/test/unit_test.hpp>
+
+/*
+ * These tests test the actual instructions with the associated permutations
+ * of addressing modes. Notably, the translation of op code to instruction/mode
+ * is skipped.
+ */
+
+/*
+ * This macro is used to simplify testing an instruction.
+ * It declares an instruction and subsequently executes it.  It then prints the output.
+ * We assume that the addressing mode has been determined and so feed it directly to
+ * the instructions.
+ * 
+ * INST        = The Instruction name.
+ * ADDRESSMODE = The addressing mode.
+ * OP          = The Operand on which the instruction operates.
+ */
+#define RUN(INST, ADDRESSMODE, OP) INST inst(c.cpu, c.data(), &ADDRESSMODE); \
+        c.run(&inst, OP)
+
+class CpuTester {
+public:
+
+  CpuTester() : cpu(nullptr, nullptr) {}
+
+  void print(uint8_t op) { cpu.print_registers(op); }
+
+  void run(Instruction6502 *inst, uint8_t op) {
+    // Push an instruction onto the instruction queue and power on the CPU.
+    cpu.q->push(inst);
+    cpu.power(true);
+  }
+
+  registers& data() {
+    return cpu.reg;
+  }
+
+  Cpu6502 cpu;
+};
+
+static void
+verifyStatus(CpuTester& c, uint8_t expected)
+{
+  assert(c.reg.p, expected);
+}
+
+BOOST_AUTO_TEST_CASE(_adc_)
+{
+  CpuTester c;
+  AddressMode immediate(Immediate::before, Immediate::after);
+  RUN(ADC, immediate, 0);
+  assert(c.data().acc == 0);
+}
+
+BOOST_AUTO_TEST_CASE(_sbc_)
+{
+  CpuTester c;
+  AddressMode immediate(Immediate::before, Immediate::after);
+  RUN(SBC, immediate, 0);
+}

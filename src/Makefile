@@ -39,10 +39,10 @@ cmake_force:
 SHELL = /bin/sh
 
 # The CMake executable.
-CMAKE_COMMAND = /home/brak/software/cmake-3.5.2-Linux-x86_64/bin/cmake
+CMAKE_COMMAND = /usr/bin/cmake
 
 # The command to remove a file.
-RM = /home/brak/software/cmake-3.5.2-Linux-x86_64/bin/cmake -E remove -f
+RM = /usr/bin/cmake -E remove -f
 
 # Escaping for special characters.
 EQUALS = =
@@ -59,7 +59,7 @@ CMAKE_BINARY_DIR = /home/brak/dev/NESEMU
 # Special rule for the target test
 test:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running tests..."
-	/home/brak/software/cmake-3.5.2-Linux-x86_64/bin/ctest --force-new-ctest-process $(ARGS)
+	/usr/bin/ctest --force-new-ctest-process $(ARGS)
 .PHONY : test
 
 # Special rule for the target test
@@ -69,8 +69,8 @@ test/fast: test
 
 # Special rule for the target edit_cache
 edit_cache:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake cache editor..."
-	/home/brak/software/cmake-3.5.2-Linux-x86_64/bin/ccmake -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "No interactive CMake dialog available..."
+	/usr/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
 .PHONY : edit_cache
 
 # Special rule for the target edit_cache
@@ -81,7 +81,7 @@ edit_cache/fast: edit_cache
 # Special rule for the target rebuild_cache
 rebuild_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
-	/home/brak/software/cmake-3.5.2-Linux-x86_64/bin/cmake -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+	/usr/bin/cmake -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
 .PHONY : rebuild_cache
 
 # Special rule for the target rebuild_cache
@@ -122,6 +122,21 @@ depend:
 .PHONY : depend
 
 # Convenience name for target.
+src/CMakeFiles/emulator.dir/rule:
+	cd /home/brak/dev/NESEMU && $(MAKE) -f CMakeFiles/Makefile2 src/CMakeFiles/emulator.dir/rule
+.PHONY : src/CMakeFiles/emulator.dir/rule
+
+# Convenience name for target.
+emulator: src/CMakeFiles/emulator.dir/rule
+
+.PHONY : emulator
+
+# fast build rule for target.
+emulator/fast:
+	cd /home/brak/dev/NESEMU && $(MAKE) -f src/CMakeFiles/emulator.dir/build.make src/CMakeFiles/emulator.dir/build
+.PHONY : emulator/fast
+
+# Convenience name for target.
 src/CMakeFiles/nesemu.dir/rule:
 	cd /home/brak/dev/NESEMU && $(MAKE) -f CMakeFiles/Makefile2 src/CMakeFiles/nesemu.dir/rule
 .PHONY : src/CMakeFiles/nesemu.dir/rule
@@ -136,20 +151,32 @@ nesemu/fast:
 	cd /home/brak/dev/NESEMU && $(MAKE) -f src/CMakeFiles/nesemu.dir/build.make src/CMakeFiles/nesemu.dir/build
 .PHONY : nesemu/fast
 
-# Convenience name for target.
-src/CMakeFiles/emulator.dir/rule:
-	cd /home/brak/dev/NESEMU && $(MAKE) -f CMakeFiles/Makefile2 src/CMakeFiles/emulator.dir/rule
-.PHONY : src/CMakeFiles/emulator.dir/rule
+cpu/addressModes.o: cpu/addressModes.cpp.o
 
-# Convenience name for target.
-emulator: src/CMakeFiles/emulator.dir/rule
+.PHONY : cpu/addressModes.o
 
-.PHONY : emulator
+# target to build an object file
+cpu/addressModes.cpp.o:
+	cd /home/brak/dev/NESEMU && $(MAKE) -f src/CMakeFiles/emulator.dir/build.make src/CMakeFiles/emulator.dir/cpu/addressModes.cpp.o
+.PHONY : cpu/addressModes.cpp.o
 
-# fast build rule for target.
-emulator/fast:
-	cd /home/brak/dev/NESEMU && $(MAKE) -f src/CMakeFiles/emulator.dir/build.make src/CMakeFiles/emulator.dir/build
-.PHONY : emulator/fast
+cpu/addressModes.i: cpu/addressModes.cpp.i
+
+.PHONY : cpu/addressModes.i
+
+# target to preprocess a source file
+cpu/addressModes.cpp.i:
+	cd /home/brak/dev/NESEMU && $(MAKE) -f src/CMakeFiles/emulator.dir/build.make src/CMakeFiles/emulator.dir/cpu/addressModes.cpp.i
+.PHONY : cpu/addressModes.cpp.i
+
+cpu/addressModes.s: cpu/addressModes.cpp.s
+
+.PHONY : cpu/addressModes.s
+
+# target to generate assembly for a file
+cpu/addressModes.cpp.s:
+	cd /home/brak/dev/NESEMU && $(MAKE) -f src/CMakeFiles/emulator.dir/build.make src/CMakeFiles/emulator.dir/cpu/addressModes.cpp.s
+.PHONY : cpu/addressModes.cpp.s
 
 cpu/cpu.o: cpu/cpu.cpp.o
 
@@ -294,9 +321,12 @@ help:
 	@echo "... depend"
 	@echo "... test"
 	@echo "... edit_cache"
-	@echo "... rebuild_cache"
-	@echo "... nesemu"
 	@echo "... emulator"
+	@echo "... nesemu"
+	@echo "... rebuild_cache"
+	@echo "... cpu/addressModes.o"
+	@echo "... cpu/addressModes.i"
+	@echo "... cpu/addressModes.s"
 	@echo "... cpu/cpu.o"
 	@echo "... cpu/cpu.i"
 	@echo "... cpu/cpu.s"

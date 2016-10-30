@@ -6,3 +6,4 @@ nesemu
 unit-tests
 *.swp
 Testing/
+Makefile
