@@ -1,8 +1,5 @@
 #pragma once
-
 #include "registers.h"
-
-#include <iostream>
 
 /**
   * AddressMode defines an interface for adressing
@@ -14,16 +11,7 @@
   * allow address mode reuse.
   */
 
-typedef uint8_t (* AddressCallback)(registers& reg);
-
 class AddressMode {
 public:
-  AddressMode(AddressCallback f) :
-    fetch(f) {}
-
-  AddressCallback fetch;
+  virtual uint8_t fetch(registers& reg) = 0;
 };
-
-namespace Immediate {
-  uint8_t fetch(registers& reg);
-}

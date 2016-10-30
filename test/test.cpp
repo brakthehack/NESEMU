@@ -7,7 +7,9 @@
 
 #include <cinttypes>
 #include <string>
+#include <vector>
 #include <boost/test/unit_test.hpp>
+
 
 /*
  * These tests test the actual instructions with the associated permutations
@@ -24,10 +26,12 @@ public:
     return '\n' + op_name + '\n' + cpu.print_registers(op);
   }
 
-  void run(Instruction6502 *inst, uint8_t op) {
-    // Push an instruction onto the instruction queue and power on the CPU.
-    cpu.q->push(inst);
+  void run() {
     cpu.power(true);
+  }
+  void queue(Instruction6502 *instruction) {
+    // Push an instruction onto the instruction queue and power on the CPU.
+    cpu.q->push(instruction);
   }
 
   registers& data() {
@@ -37,16 +41,15 @@ public:
   Cpu6502 cpu;
 };
 
+class Immediate : public AddressMode {
+public:
+  Immediate(uint8_t o) :
+    operand(o) {}
+  uint8_t fetch(registers&) { return operand; }
 
-
-/*
- * Bypass the addressing mode by retrieving an operand to
- * the requesting instruction.
- */
-
-uint8_t fetch_val;
-uint8_t fetch(registers& reg) { return fetch_val; }
-
+private:
+  uint8_t operand;
+};
 
 // Verification funtions.
 
@@ -81,10 +84,21 @@ verify_status_one(CpuTester& c, uint8_t expected,const std::string& op_name="")
 template<typename INSTRUCTION>
 static void run(CpuTester& c, uint8_t operand)
 {
-  fetch_val = operand;
-  AddressMode mode(&fetch);
+  Immediate mode(operand);
   INSTRUCTION instruction(c.cpu, c.data(), &mode);
-  c.run(&instruction, operand);
+  c.queue(&instruction);
+  c.run();
+}
+
+template<typename INSTRUCTION>
+static void run(CpuTester& c, std::vector<uint8_t> operands)
+{
+  for (uint8_t operand : operands) {
+    Immediate mode(operand);
+    INSTRUCTION instruction(c.cpu, c.data(), &mode);
+    c.queue(&instruction);
+  }
+  c.run();
 }
 
 
@@ -104,8 +118,8 @@ BOOST_AUTO_TEST_CASE(_adc_)
   }
   {
     CpuTester c;
-    run<ADC>(c, 1);
-    run<ADC>(c, 127);
+    std::vector<uint8_t> operands = { 1, 127 };
+    run<ADC>(c, operands);
     verify_acc(c, 128, "ADC Max");
   }
   {
