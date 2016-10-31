@@ -93,10 +93,14 @@ static void run(CpuTester& c, uint8_t operand)
 template<typename INSTRUCTION>
 static void run(CpuTester& c, std::vector<uint8_t> operands)
 {
+  std::vector<Immediate *> storage;
+  std::vector<INSTRUCTION *> storage2;
   for (uint8_t operand : operands) {
-    Immediate mode(operand);
-    INSTRUCTION instruction(c.cpu, c.data(), &mode);
-    c.queue(&instruction);
+    Immediate *mode = new Immediate(operand);
+    storage.push_back(mode);
+    INSTRUCTION *instruction = new INSTRUCTION(c.cpu, c.data(), mode);
+    storage2.push_back(instruction);
+    c.queue(instruction);
   }
   c.run();
 }
@@ -106,6 +110,7 @@ BOOST_AUTO_TEST_CASE(_adc_)
 {
   // Test customs.
   // Simple case.
+
   {
     CpuTester c;
     run<ADC>(c, 0);
@@ -116,23 +121,39 @@ BOOST_AUTO_TEST_CASE(_adc_)
     run<ADC>(c, 69);
     verify_acc(c, 69, "General");
   }
+
   {
     CpuTester c;
     std::vector<uint8_t> operands = { 1, 127 };
     run<ADC>(c, operands);
-    verify_acc(c, 128, "ADC Max");
+    verify_acc(c, 128, "1 + 127 = 128");
+  }
+
+  {
+    CpuTester c;
+    std::vector<uint8_t> operands = { 1, 255 };
+    run<ADC>(c, operands);
+    verify_acc(c, 0, "1 + 255 = 0");
+    verify_status_one(c, Registers::CARRY_FLAG, "Carry FLAG");
   }
   {
     CpuTester c;
-    run<ADC>(c, -1);
-    run<ADC>(c, -128);
-    verify_acc(c, -129, "Carry ACC");
+    std::vector<uint8_t> operands = { 255, 255 };
+    run<ADC>(c, operands);
+    verify_acc(c, 254, "255 + 255 = 254");
     verify_status_one(c, Registers::CARRY_FLAG, "Carry FLAG");
+    verify_status_one(c, Registers::OVERFLOW_FLAG, "Overflow FLAG");
+  }
+  {
+    CpuTester c;
+    std::vector<uint8_t> operands = { 255, 255, 0 };
+    run<ADC>(c, operands);
+    verify_acc(c, 255, "255 + 255 = 254 + carry = 255");
   }
 }
 
 BOOST_AUTO_TEST_CASE(_sbc_)
 {
   CpuTester c;
-  run<SBC>(c, 0);
+  // run<SBC>(c, 0);
 }

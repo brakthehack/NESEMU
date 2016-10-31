@@ -43,9 +43,13 @@ public:
   inline bool overflow() { return (reg.p & Registers::OVERFLOW_FLAG) != 0; }
   inline bool negative() { return (reg.p & Registers::NEGATIVE_FLAG) != 0; }
 
-  void carry(int result) { 
-    reg.p &= ~0x1;
-    reg.p |= result >> 8;
+  void carry(int result) {
+    uint8_t flag = result > 0xFF || result < 0 ? 1 : 0;
+    if (flag == 1) {
+      reg.p |= Registers::CARRY_FLAG;
+    } else {
+      reg.p &= ~Registers::CARRY_FLAG;
+    } 
   }
   
   void zero(uint8_t result){

@@ -116,16 +116,16 @@ Cpu6502::print_registers(uint8_t operand) {
   bitset<8> op(operand);
   bitset<8> stat(reg.p);
   ss << \
-  "------Operand------"                  << endl << \
-  "OP : " << op                          << endl << \
-  "-----Registers-----"                  << endl << \
-  "ACC: " << unsigned(reg.acc)           << endl << \
-  "ACC: " << ac                          << endl << \
-  "X  : " << unsigned(reg.x)             << endl << \
-  "Y  : " << unsigned(reg.y)             << endl << \
-  "     " << "SO_BDIZC"                  << endl << \
-  "ST : " << stat                        << endl << \
-  "SP : " << hex << unsigned(reg.sp)     << endl << \
-  "PC : " << hex << unsigned(reg.pc)     << endl;
+  "------Operand------"                    << endl << \
+  "OP : " << op << " " << int16_t(operand) << endl << \
+  "-----Registers-----"                    << endl << \
+  "ACC: " << int16_t(reg.acc)              << endl << \
+  "ACC: " << ac                            << endl << \
+  "X  : " << int16_t(reg.x)                << endl << \
+  "Y  : " << int16_t(reg.y)                << endl << \
+  "     " << "SO_BDIZC"                    << endl << \
+  "ST : " << stat                          << endl << \
+  "SP : " << hex << unsigned(reg.sp)       << endl << \
+  "PC : " << hex << unsigned(reg.pc)       << endl;
   return ss.str();
 }

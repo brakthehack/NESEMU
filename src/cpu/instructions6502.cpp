@@ -19,7 +19,7 @@ ADC::operate(uint8_t& op) {
   }
 
   cpu.carry(temp);
-  reg.acc = temp & 0xFF;
+  reg.acc = temp;
 }
 
 // Logical AND.
